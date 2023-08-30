@@ -34,6 +34,15 @@
     footer {
       margin-top: 3em;
     }
+    li label {
+      font-weight: bold;
+    }
+    li label::after {
+      content: "–";
+    }
+    #projects li {
+      margin-bottom: 1em;
+    }
   </style>
 </head>
 
@@ -89,19 +98,28 @@
         I enjoy tinkering with little projects in my spare time, which you can mostly find on my <a href="https://github.com/lkdm">Github profile</a>.
         These are the ones I am most proud of:
       </p>
-      </p>
       <ul>
         <li>
-          📈 <a href="https://compoundinterest.lukm.dev/">React Compound Interest Calculator</a>
+          📈
+          <label>
+            <a href="https://compoundinterest.lukm.dev/" target="_blank">
+              React Compound Interest Calculator
+            </a>
+          </label>
+          A clone of the Australian Government's Moneysmart Compound Interest Calculator in React, CSS Bootstrap, and Typescript.
         </li>
         <li>
-          🐍 <a href="https://github.com/lkdm/Pynesweeper">Python Minesweeper</a>
+          🐍
+          <label>
+            <a href="https://github.com/lkdm/Pynesweeper" target="_blank">Pynesweeper</a>
+          </label>
+          A feature-complete clone of Microsoft Minesweeper written in Python, with an added Graph-based hexagon mode.
         </li>
       </ul>
     </section>
   </main>
   <footer>
-    <address>If you&apos;d like to reach out, please contact me via: <a href="mailto:contact@lukm.dev?subject=Email%20from%20lukm.dev">Email</a> or <a href="https://www.linkedin.com/in/lkdm/">LinkedIn</a>.</address>
+    <address>If you&apos;d like to reach out, please contact me via: <a href="mailto:contact@lukm.dev?subject=Email%20from%20lukm.dev">Email</a> or <a href="https://www.linkedin.com/in/lkdm/" target="_blank">LinkedIn</a>.</address>
   </footer>
 </body>
 </html>
