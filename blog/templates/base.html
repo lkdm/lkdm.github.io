@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>lukm.dev</title>
+        <meta
+            name="description"
+            content="The personal website for Luke Martin, a software developer."
+        />
+        <meta name="author" content="Luke Martin" />
+
+        <style type="text/css">
+            /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+            body {
+                margin: auto;
+                padding: 1rem;
+                max-width: 36rem;
+                line-height: 1.5;
+                font-size: 1rem;
+                background: #1f2631;
+                color: #d3d3d3;
+                font-family: "Georgia", serif;
+            }
+            a {
+                color: #6584ff;
+            }
+            h1,
+            h2,
+            h3 {
+                margin-top: 1em;
+                padding-top: 1em;
+            }
+            footer {
+                margin-top: 3em;
+            }
+            li label {
+                font-weight: bold;
+            }
+            li label::after {
+                content: "–";
+            }
+            #projects li {
+                margin-bottom: 1em;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <header>
+                <h1>lukm.dev</h1>
+                <aside>I am Luke– a software engineer.</aside>
+                <nav>
+                    <a href="/">Home</a>
+                    <a href="/blog/">Blog</a>
+                </nav>
+            </header>
+            <section class="section">
+                <div class="container">{% block content %} {% endblock %}</div>
+            </section>
+        </main>
+        <footer>
+            <address>
+                If you&apos;d like to reach out, please contact me via:
+                <a
+                    href="mailto:contact@lukm.dev?subject=Email%20from%20lukm.dev"
+                    >Email</a
+                >
+                or
+                <a href="https://www.linkedin.com/in/lkdm/" target="_blank"
+                    >LinkedIn</a
+                >.
+            </address>
+        </footer>
+    </body>
+</html>
