@@ -1,3 +1,3 @@
 
 run:
-    pushd blog && zola serve
+    zola serve
