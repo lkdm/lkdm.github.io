@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	My git configuration - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">My git configuration</h1>
+<p class="subtitle"><strong>2025-02-26</strong></p>
+<p>Some people prefer to adhere to configuration defaults. I agree with this
+to some extent; I generally prefer to use the original command rather than
+create an alias for it. That said, there are some tweaks that can make your Git
+experience a lot better.</p>
+<p>I've compiled a list of my favourite git configuration options, and their
+explanations. Feel free to give them a try, or don't... Up to you!</p>
+<h1 id="gitconfig">Gitconfig</h1>
+<h2 id="basics">Basics</h2>
+<p>Pull should be in rebase mode by default.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> pull.rebase true
+</span></code></pre>
+<p>If you push, and the remote branch doesn't exist, it should just create it.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> push.autoSetupRemote true
+</span></code></pre>
+<h2 id="set-default-editor">Set default editor</h2>
+<p>I can't use Nano. Vi doesn't render text for me correctly through Tmux, and I
+never bothered to install Vim. So NeoVim it is.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> core.editor &quot;</span><span style="color:#a3be8c;">nvim</span><span>&quot;
+</span></code></pre>
+<h2 id="set-the-default-branch-as-main">Set the default branch as main</h2>
+<p>This ensures that <code>main</code> is the default branch when you <code>git init</code> a new
+repository locally, because most Git remotes use <code>main</code> as the default.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> init.defaultBranch main
+</span></code></pre>
+<h2 id="show-change-diff-in-commit-message-editor">Show change diff in commit message editor</h2>
+<p>This is handy. When you commit, it will show a diff of changes. Scrolling
+through is an excellent reminder of what I need to list out in the body of the
+commit.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> commit.verbose true
+</span></code></pre>
+<h2 id="use-yyyy-mm-dd-dates">Use YYYY-MM-DD dates</h2>
+<p>ISO 8601 is the most common date format software developers are familar with. I
+have no idea why Git by default uses another format.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> log.date iso
+</span></code></pre>
+<h2 id="stash-changes-before-a-rebase-then-apply-them-back-after">Stash changes before a rebase, then apply them back after</h2>
+<p>This change essentially lets you rebase from a dirty working directory. Very
+handy because in addition to saving you time, ensures you won't forget to <code>git stash apply</code>.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> rebase.autoStash true
+</span></code></pre>
+<h2 id="use-git-ssh-urls-instead-of-https-urls">Use Git SSH URLs instead of HTTPS URLs</h2>
+<p>Sometimes when copying a Git repository URL from GitHub, it defaults to the
+HTTPS URL, which does not work with my SSH keys.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> url.&quot;</span><span style="color:#a3be8c;">git@github.com:</span><span>&quot;.insteadOf &quot;</span><span style="color:#a3be8c;">https://github.com/</span><span>&quot;
+</span></code></pre>
+<h2 id="automatically-clean-up-deleted-remote-branches">Automatically clean up deleted remote branches</h2>
+<p>This deletes branches locally that have been deleted on the remote. Nobody
+should be forced to live with everyone's rubbish!</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> fetch.prune true
+</span></code></pre>
+<h2 id="fix-mistyped-commands">Fix mistyped commands</h2>
+<p>Because Git knows what you meant.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> help.autocorrect prompt
+</span></code></pre>
+<h2 id="auto-squash-fixup-commits">Auto-squash fixup commits</h2>
+<p>A <code>fixup</code> commit, is a way to mark a commit as a fixup of a previous commit,
+upon making it. While you could just amend a commit, I find <code>fixup</code> commits
+helpful in case I need to <code>reset</code> to a previous one.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> rebase.autoSquash true
+</span></code></pre>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#65737e;"># Mark a certain commit as a fixup commit
+</span><span style="color:#bf616a;">git</span><span> commit</span><span style="color:#bf616a;"> --fixup</span><span> c8ee3f5
+</span></code></pre>
+<h1 id="git-aliases">Git aliases</h1>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> alias.o &quot;</span><span style="color:#a3be8c;">log --oneline</span><span>&quot;
+</span><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> alias.adog &quot;</span><span style="color:#a3be8c;">log --all --decorate --oneline --graph</span><span>&quot;
+</span></code></pre>
+<h1 id="lazygit-fix">LazyGit fix</h1>
+<p>Git tags do not work in LazyGit if GPG signing for them is enabled</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> tag.gpgsign false
+</span></code></pre>
+<h1 id="git-commit-message">Git commit message</h1>
+<p>You can add a custom git commit message to keep your messages on track.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> commit.template </span><span style="color:#bf616a;">~</span><span>/.gitmessage
+</span></code></pre>
+<p>I added a 50-character measuring tape, template and rough guide for <a href="https://www.conventionalcommits.org/en/">conventional
+commits</a>, and URLs to further reading on Git messages and semantic versioning.</p>
+<pre data-lang="txt" style="background-color:#2b303b;color:#c0c5ce;" class="language-txt "><code class="language-txt" data-lang="txt"><span># -----------------------------------------------| &lt; 50 chars length
+</span><span># &lt;type&gt;[optional scope]: &lt;description&gt;
+</span><span>#
+</span><span># [optional body]
+</span><span>#
+</span><span># [optional footer(s)]
+</span></code></pre>
+<p>This is <strong>very</strong> helpful for keeping my commit messages consistent and helpful,
+and ensuring I don't have to double back and re-edit them later.</p>
+<p><a href="https://github.com/lkdm/dotfiles/blob/main/dot_gitmessage">You can see my full .gitmessage file here</a>. Feel free to steal it, I won't mind!</p>
+<h1 id="git-hooks">Git hooks</h1>
+<p>You can globally specify a directory for git hooks, so that you can add
+behaviour to git.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span> config</span><span style="color:#bf616a;"> --global</span><span> core.hooksPath </span><span style="color:#bf616a;">~</span><span>/.git-hooks
+</span></code></pre>
+<h2 id="guard-main-branch">Guard main branch</h2>
+<p>I like to protect against pushes to shared branches, there usually isn't a very
+good reason for me to be doing this.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#65737e;">#!/bin/bash
+</span><span style="color:#65737e;"># Filename: ~/.git-hooks/pre-push
+</span><span style="color:#bf616a;">BRANCH</span><span>=`</span><span style="color:#bf616a;">git</span><span> rev-parse</span><span style="color:#bf616a;"> --abbrev-ref</span><span> HEAD`
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[[ </span><span>&quot;$</span><span style="color:#bf616a;">BRANCH</span><span>&quot; =~ ^(master|main|staging|development|feature|testing)$ </span><span style="color:#96b5b4;">]]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>  </span><span style="color:#96b5b4;">echo
+</span><span>  </span><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">Prevented push to </span><span>$</span><span style="color:#bf616a;">BRANCH</span><span style="color:#a3be8c;">.</span><span>&quot;
+</span><span>  </span><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">If you really want to do this, use --no-verify to bypass this pre-push hook.</span><span>&quot;
+</span><span>  </span><span style="color:#96b5b4;">echo
+</span><span>  </span><span style="color:#96b5b4;">exit</span><span> 1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#96b5b4;">exit</span><span> 0
+</span></code></pre>
+<h1 id="git-guard-script">Git guard script</h1>
+<p>I've written a script that I add to my <code>.zshrc</code> that intercepts the execution of
+<code>git</code> and checks whether I'm using a command I'm trying to unlearn, then prompts
+me to use the preferred command.</p>
+<p><a href="https://gist.github.com/lkdm/c866ad45205ef8d7eef21e952fb6b400">You can see the full script here</a>.</p>
+<p>Here is an example of how it works:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">luke@macbook ~</span><span>/github.com/lkdm/blog (main) </span><span style="color:#bf616a;">$</span><span> git checkout
+</span><span style="color:#bf616a;">Don</span><span>&#39;</span><span style="color:#a3be8c;">t use checkout; use switch or restore.
+</span><span style="color:#a3be8c;">Consider using </span><span>&#39;</span><span style="color:#bf616a;">git</span><span> switch&#39;</span><span style="color:#a3be8c;"> instead.
+</span><span style="color:#a3be8c;">Using </span><span>&#39;git switch&#39;</span><span style="color:#a3be8c;"> is safer and more predictable for switching branches, while </span><span>&#39;git restore&#39;</span><span style="color:#a3be8c;"> is better for discarding changes.
+</span><span style="color:#a3be8c;">Do you still want to proceed? (y/N)
+</span></code></pre>
+<p>Here are some of the behaviours I'm trying to unlearn:</p>
+<h3 id="git-push-origin-force"><code>git push origin --force</code></h3>
+<p>This one has bitten me. <code>--force</code> will just overwrite whatever is on remote with
+what is on my branch. Instead, it's better to use <code>--force-with-lease</code> which
+first checks whether the remote has changed.</p>
+<h3 id="git-checkout"><code>git checkout</code></h3>
+<p>A, in my opinion, better alternative to git checkout is to use <code>git switch</code> to
+deal with commits and branches, and <code>git restore</code> to deal with files.</p>
+<p>The <a href="https://github.com/git/git/commit/d787d311dbd7a4104a9dde23b90ae24528a15cf9">commit that introduced the change</a> specifies the rationale:</p>
+<blockquote>
+<p>"git checkout" doing too many things is a source of confusion for many
+users (and it even bites old timers sometimes). To remedy that, the
+command will be split into two new ones: switch and restore. The good
+old "git checkout" command is still here and will be until all (or most
+of users) are sick of it.</p>
+</blockquote>
+<p>While the stated goal of the change is to reduce confusion, the interface for
+dealing with <code>git switch</code> is much better:</p>
+<ul>
+<li><code>--detach</code> is always required when switching to a detached head, whereas it
+was previously optional.</li>
+<li>When using <code>checkout</code> with <code>--force</code>, you can switch branches while in the
+middle of a merge. You can't do this with <code>switch</code>.</li>
+</ul>
+<p>You are less likely to encounter a footgun while using <code>git stash</code>.</p>
+<h3 id="git-commit-m"><code>git commit -m</code></h3>
+<p>Using the <code>-v</code> flag is much better, because it opens the
+commit editor in my chosen editor (nvim), shows a diff of all changes, and also
+shows my commit template message. Since using <code>-v</code>, I never forget the correct
+commit message convention, or forget to list any of the changes I've made.</p>
+ </div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>
