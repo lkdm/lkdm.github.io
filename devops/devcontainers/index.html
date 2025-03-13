@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Your next project in a devcontainer - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Your next project in a devcontainer</h1>
+<p class="subtitle"><strong>2025-03-13</strong></p>
+<p>I recently decided to look into Devpod, which is a command-line tool (and
+graphical application) that makes
+it easy to develop within a container for each project.</p>
+<p>This means that each project has its own development container, containing dev
+dependencies and configuration.</p>
+<h2 id="a-quick-overview">A quick overview</h2>
+<p>Dockerfiles are a set of instructions for building a container.</p>
+<p>Docker-compose is a tool (and yaml specification) that allows you to orchestrate
+multiple containers.</p>
+<p>Devcontainers are built from <code>devcontainer.json</code> files, and specifically stand
+up the development environment.</p>
+<h2 id="benefits-of-devcontainers">Benefits of Devcontainers</h2>
+<ul>
+<li>None of the dependencies touch your system</li>
+<li>If you're using VSCode, it will automatically install extensions that are
+useful to the project</li>
+<li>If you are using Neovim, you can pass in a URL for your dotfiles git
+repository</li>
+<li>Onboarding other devs is seamless</li>
+<li>Using them teaches you Docker</li>
+</ul>
+<h2 id="a-basic-setup">A basic setup</h2>
+<p>Here is a basic setup that creates a dev container with Neovim installed using
+Homebrew on Debian.</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  &quot;</span><span style="color:#a3be8c;">image</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">mcr.microsoft.com/devcontainers/base:debian</span><span>&quot;,
+</span><span>  &quot;</span><span style="color:#a3be8c;">features</span><span>&quot;: {
+</span><span>    &quot;</span><span style="color:#a3be8c;">ghcr.io/devcontainers-contrib/features/neovim-homebrew</span><span>&quot;: {}
+</span><span>  },
+</span><span>  &quot;</span><span style="color:#a3be8c;">remoteEnv</span><span>&quot;: {
+</span><span>    &quot;</span><span style="color:#a3be8c;">LANG</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">en_US.UTF-8</span><span>&quot;
+</span><span>  },
+</span><span>  &quot;</span><span style="color:#a3be8c;">forwardPorts</span><span>&quot;: [</span><span style="color:#d08770;">8000</span><span>]
+</span><span>}
+</span></code></pre>
+<p>My advice is to create a slimmed down version of your dotfiles, for use with
+devpods. I shamelessly stole <a href="https://github.com/lkdm/dotfiles-devpod">most of mine</a> from
+<a href="https://github.com/mischavandenburg/dotfiles-devpod">Mischa Vandenburg's dotfiles-devpod repository</a>.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">devpod</span><span> up .</span><span style="color:#bf616a;"> --dotfiles</span><span> https://github.com/lkdm/dotfiles-devpod</span><span style="color:#bf616a;"> --dotfiles-script</span><span> setup
+</span></code></pre>
+<h2 id="devcontainer-features">Devcontainer Features</h2>
+<h2 id="using-devcontainers-with-other-containers">Using Devcontainers with other containers</h2>
+<p>You can stand up other services with your dev container using a
+<code>docker-compose.yml</code> file.</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  &quot;</span><span style="color:#a3be8c;">dockerComposeFile</span><span>&quot;: [&quot;</span><span style="color:#a3be8c;">docker-compose.yml</span><span>&quot;],
+</span><span>  &quot;</span><span style="color:#a3be8c;">service</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">app</span><span>&quot;,
+</span><span>  &quot;</span><span style="color:#a3be8c;">runServices</span><span>&quot;: [&quot;</span><span style="color:#a3be8c;">db</span><span>&quot;],
+</span><span>  &quot;</span><span style="color:#a3be8c;">workspaceFolder</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">/workspace</span><span>&quot;
+</span><span>  </span><span style="color:#65737e;">// ...
+</span><span>}
+</span></code></pre>
+<p>You may decide to make</p>
+<p><a href="https://containers.dev/guide/dockerfile">There is also a guide on the Development Containers website.</a></p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">docker</span><span> ps</span><span style="color:#bf616a;"> -a
+</span><span style="color:#bf616a;">docker</span><span> inspect CONTAINER_ID
+</span></code></pre>
+<h2 id="footguns">Footguns</h2>
+<ul>
+<li><a href="https://code.visualstudio.com/remote/advancedcontainers/environment-variables">Devcontainer.json <code>remoteEnv</code> property is not supported for <code>docker-compose</code>
+setups</a></li>
+<li><code>devpod --recreate</code> does not recreate the other containers stood up in your docker-compose.</li>
+</ul>
+<h2 id="useful-links">Useful links</h2>
+<ul>
+<li><a href="https://devpod.sh/">Devpod</a></li>
+<li><a href="https://containers.dev/overview">Development Containers</a></li>
+<li><a href="https://devhints.io/dockerfile">Dockerfile cheatsheet</a></li>
+<li><a href="https://devhints.io/docker-compose">Docker-compose cheatsheet</a></li>
+</ul>
+ </div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>
