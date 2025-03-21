@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Oneshot - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Oneshot</h1>
+<p class="subtitle"><strong>2025-02-26</strong></p>
+<p>Ever wanted to just run a script or cli utility really quickly in a container?
+Maybe you want to avoid polluting your userspace with dependencies, or you just
+want to try something new because it's too early to commit.</p>
+<p>I'd like to introduce <em>oneshot</em>...</p>
+<p>Oneshot is a command-line utility to fire off a script in a short-lived
+container.</p>
+<h2 id="oneshot-can-run-commands">Oneshot can run commands</h2>
+<p>A basic hello world example that will output to console.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#65737e;"># Hello world
+</span><span style="color:#bf616a;">oneshot</span><span> run</span><span style="color:#bf616a;"> -s </span><span>&quot;</span><span style="color:#a3be8c;">echo HELLO WORLD</span><span>&quot;
+</span></code></pre>
+<p>You can quickly install packages using <code>--from-uv</code>, <code>--from-apk</code>,
+<code>--from-cargo</code>, <code>--from-bun</code>, and a few others.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#65737e;"># Cowsay hello World
+</span><span style="color:#bf616a;">oneshot</span><span> run</span><span style="color:#bf616a;"> -s </span><span>&quot;</span><span style="color:#a3be8c;">uvx pycowsay &#39;Hello from oneshot!&#39;</span><span>&quot;</span><span style="color:#bf616a;"> --from-uv</span><span> pycowsay
+</span></code></pre>
+<h2 id="oneshot-can-boot-an-interactive-shell">Oneshot can boot an interactive shell</h2>
+<p>You can start a shell in the container.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">oneshot</span><span> shell
+</span></code></pre>
+<p>You can start a REPL, having installed some packages.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#65737e;"># With numpy
+</span><span style="color:#bf616a;">oneshot</span><span> run</span><span style="color:#bf616a;"> -s </span><span>&quot;</span><span style="color:#a3be8c;">python3 -i</span><span>&quot;</span><span style="color:#bf616a;"> --from-uv</span><span> numpy
+</span></code></pre>
+<h2 id="oneshot-command-examples">Oneshot command examples</h2>
+<p>Download a YouTube video</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">oneshot</span><span> run</span><span style="color:#bf616a;"> -s </span><span>&quot;</span><span style="color:#a3be8c;">yt-dlp dQw4w9WgXcQ</span><span>&quot;</span><span style="color:#bf616a;"> --from-uv</span><span> yt-dlp
+</span></code></pre>
+<p>Then compress it</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">oneshot</span><span> run</span><span style="color:#bf616a;"> -s </span><span>&quot;</span><span style="color:#a3be8c;">ffmpeg -i input.mp4 output.webm</span><span>&quot;</span><span style="color:#bf616a;"> --from-apk</span><span> ffmpeg
+</span></code></pre>
+<p>Convert an image format</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">oneshot</span><span> run</span><span style="color:#bf616a;"> -s </span><span>&#39;</span><span style="color:#a3be8c;">convert input.png output.jpg</span><span>&#39;</span><span style="color:#bf616a;"> --from-apk</span><span> imagemagick
+</span></code></pre>
+<p>Convert markdown to PDF</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">oneshot</span><span> run</span><span style="color:#bf616a;"> -s </span><span>&quot;</span><span style="color:#a3be8c;">pandoc -s input.md -o output.pdf</span><span>&quot;</span><span style="color:#bf616a;"> --from-apk</span><span> pandoc
+</span></code></pre>
+<h2 id="future">Future</h2>
+<p>Ideally, I'd love to add these two features to <code>oneshot</code>:</p>
+<ol>
+<li>The <code>exec</code> subcommand that should execute a script in a oneshot container.</li>
+<li>A shebang which allows you to pass args in to configure the oneshot,
+essentially making oneshot a one-liner at the top of a script.</li>
+</ol>
+<p>I also stopped development just short of adding a Docker adapter and build
+script. If anyone wants, feel free to create a PR for these.</p>
+<ul>
+<li><a href="https://github.com/lkdm/oneshot">Git repo</a></li>
+</ul>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="dark-blue" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>

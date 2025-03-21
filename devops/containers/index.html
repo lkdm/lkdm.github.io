@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Intro to containerised development - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Intro to containerised development</h1>
+<p class="subtitle"><strong>2025-03-21</strong></p>
+<p>This is a high-level introduction to containerised development. I am going to be
+using general terms to explain concepts to a newer developer.</p>
+<h1 id="why">Why</h1>
+<p>Learning to use containers and using them have several benefits for developers:</p>
+<ol>
+<li>Deployment is reproducible</li>
+<li>Dependencies can be installed with a container, keeping the host system clean</li>
+</ol>
+<h1 id="what">What</h1>
+<h2 id="containers">Containers</h2>
+<p>Containers can be thought of as similar to virtual machines. Virtual machines
+<em>virtualise</em> (heh) an entire operating system and kernel. Containers do this,
+but are more lightweight because they share the kernel with the host operating
+system, in most cases.</p>
+<p>A container runtime is a piece of software used to create, run, and manage containers. Two notable container runtimes are Docker and Podman.</p>
+<p>On Mac OS and Windows, a Linux kernel needs to be created, called a machine or
+engine by container runtimes.</p>
+<p>The most basic Containerfile will contain a <code>FROM</code> statement</p>
+<pre data-lang="Dockerfile" style="background-color:#2b303b;color:#c0c5ce;" class="language-Dockerfile "><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#65737e;"># Use the latest version of Debian from Docker hub
+</span><span style="color:#b48ead;">FROM</span><span> debian:latest
+</span></code></pre>
+<p>You can run this Containerfile by using the following shell command (it will
+automatically look for a Dockerfile in the current directory):</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">docker</span><span> build</span><span style="color:#bf616a;"> -t</span><span> my_debian .
+</span><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> -it</span><span> my_debian
+</span></code></pre>
+<p>So what happened here?</p>
+<ol>
+<li>The container runtime will pull the latest version of Debian if it's not already on the host
+system.</li>
+<li>It will create a new image tagged with <code>my_debian</code>.</li>
+<li>It will then start an interactive shell session in the new container.</li>
+</ol>
+<p>This is obviously a very minimal example. Containerfiles can contain many more
+instructions, such as ports to expose, volumes to mount, data to copy, and even
+shell commands to run.</p>
+<p>As an example, here is an example of a container for PostgreSQL running in Alpine Linux:</p>
+<pre data-lang="Dockerfile" style="background-color:#2b303b;color:#c0c5ce;" class="language-Dockerfile "><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#65737e;"># Use the latest PostgreSQL Alpine image
+</span><span style="color:#b48ead;">FROM</span><span> postgres:alpine
+</span><span>
+</span><span style="color:#65737e;"># Expose the default PostgreSQL port
+</span><span style="color:#b48ead;">EXPOSE </span><span>5432
+</span><span>
+</span><span style="color:#65737e;"># Persist data inside the database
+</span><span style="color:#b48ead;">VOLUME </span><span>/var/lib/postgresql/data
+</span></code></pre>
+<h2 id="volumes">Volumes</h2>
+<p>A volume is a virtual drive (a file or directory) that a container is given
+access to. This can be mapped to a location on your host system. Usually, when
+you are developing, you will either <code>COPY</code> or mount your source code directory
+as a volume for your container to access.</p>
+<h2 id="containerfile-dockerfile">Containerfile (Dockerfile)</h2>
+<p>A Containerfile is a set of instructions using a simple syntax for declaratively
+building a container, at the time of writing the industry standard is to name
+these <code>Dockerfile</code>.</p>
+<h2 id="compose">Compose</h2>
+<p>Compose is a method of <em>orchestrating</em> more than one container at a time.
+The primary way of doing this is creating a <code>compose.yml</code> file, which contain
+<code>services</code>. When you run <code>docker-compose up</code> or <code>podman-compose up</code> in the directory containing a <code>compose.yml</code> file, it runs the services specified.</p>
+<p>This is very useful for running an application that relies on <em>more than one</em>
+container, such as a web application with a database backend.</p>
+<h1 id="how">How</h1>
+<h2 id="install-a-container-runtime">Install a container runtime</h2>
+<p>To begin, decide whether you want to use Docker or Podman as a container
+runtime. Docker is the industry-standard at the time of writing, and a safe
+choice. That said, Podman should, in most cases, be a drop-in replacement for
+Docker, and is likely to be more efficient on Linux systems.</p>
+<p>In the case of Docker, you can install it using the GUI app Docker Desktop. I
+recommend, however, installing the CLI version and learning to use it through
+the command line.</p>
+<h2 id="should-you-develop-inside-the-container">Should you develop inside the container?</h2>
+<p>If you've mounted your source code directory as a volume that the container has
+access to, you will be have two options for how you will access and edit the
+code. You can either open your IDE and edit files on the host system, or set it
+to SSH into the container and edit files within the container.</p>
+<p>Whichever you choose does not <em>really</em> matter at this stage. For this matter,
+the simplest way to start is to develop on the host operating system.</p>
+<p>With that said, there are good reasons you may want to consider SSHing into the
+container directly and editing inside of it. One being that the dependencies for
+developing are installed within the container, keeping your host operating
+system clean.</p>
+<p><a href="https://lukm.dev/devops/devcontainers/">I have written an article on the how and why of developing with a dev
+container</a>. I recommend reading it when
+you get a chance.</p>
+<h2 id="accessing-a-container">Accessing a container</h2>
+<p>From another container on the same network, you can access a container by using
+the container's tag as the domain. But from outside the container runtime, you
+need to use <code>localhost</code>.</p>
+<p>As an example, if you decided to create a Postgres container named
+<code>my_postgres</code>, here's what the connection string would look like:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span># From the host computer
+</span><span>pgsql://user:password@localhost:5432/database_name
+</span><span>
+</span><span># From another container on the same network
+</span><span>pgsql://user:password@my_postgres:5432/database_name
+</span></code></pre>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="https://opencontainers.org/">Open Container Initiative</a></li>
+</ul>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="dark-blue" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>

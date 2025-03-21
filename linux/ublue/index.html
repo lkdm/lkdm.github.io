@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	The zen of immutable Linux - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">The zen of immutable Linux</h1>
+<p class="subtitle"><strong>2025-03-13</strong></p>
+<p>Immutable operating systems have made desktop Linux amazing, grab a coffee while
+I gush over this new methodology for general purpose computing.</p>
+<h1 id="background">Background</h1>
+<p>To give you some background about me, I've been a macOS user for my entire adult
+life. I enjoy the fact that macOS has historically just worked without the need
+for heaps of configuration, and once setup has not really failed.</p>
+<p>In the past, I've tried multiple times to use Linux as a desktop operating
+system, and it never stuck. There were always driver issues, the applications or
+games I wanted to run didn't work correctly, or I borked the system somehow.</p>
+<p>I recently heard about Fedora's Atomic Desktops, specifically Universal Blue.
+They are opinionated Containerfile desktop distributions that have really good
+default applications and settings for various types of users, such as developers
+(Bluefin-dx or Aurora), gamers (Bazzite), and system administrators (Blue Core).</p>
+<p>I installed Bluefin-dx, which to my surprise was the most seamless installation of any
+operating system I've ever used (yes, including macOS). Since then, I've been
+daily driving it and have installed it on my personal and work computers. And dear reader, I excited to inform you that in my opinion, Linux desktop is finally ready for mass adoption.</p>
+<p>There are so many things I love about Bluefin-dx in particular. First, the modern GNOME desktop is similar in look, feel, and quality to macOS. The general quality of Flatpak applications is excellent and installing them is as easy as installing software on a Mac. The video drivers just work out of the box. I've installed this operating system on a computer with an AMD graphics card, NVIDIA graphics card, and INTEL integrated graphics, and it's been buttery smooth on every one of them.</p>
+<p>Another thing, games work just as well as Windows out of the box. My last
+attempt at using Linux Desktop was Debian 12, which was amazing, but fell just
+slightly short of my expectations. Modern Bazzite or Bluefin-dx is incredible.</p>
+<h1 id="what">What</h1>
+<h2 id="filesystem">Filesystem</h2>
+<p>Let me back up a bit and explain what an Atomic Desktop actually is.
+Conceptually and practically, you can think of it as an operating system that is
+entirely run inside of a container.</p>
+<p>First of all, the base filesystem of the host operating system (Fedora) is immutable, which ensures that installed applications
+don't bork the host operating system (which has happened to me before with other
+Linux distros). There are only two directories that are writeable <code>/etc</code> for
+system configuration and <code>/var</code> for user-space data, applications, and
+configuration.</p>
+<p>The base OS makes the following symlinks available to ensure compatibility with
+existing software:</p>
+<ul>
+<li><code>/home</code> -&gt; <code>/var/home</code></li>
+<li><code>/opt</code> -&gt; <code>/var/opt</code></li>
+<li><code>/root</code> -&gt; <code>/var/roothome</code></li>
+<li><code>/usr/local</code> -&gt; <code>/var/usrlocal</code></li>
+</ul>
+<h2 id="updates">Updates</h2>
+<p>Atomic updates ensure that the system is always in a consistent state, reducing the risk of partial updates that can lead to system instability. While bleeding-edge distros like Arch
+sometimes break user's distributions on updates, it is not unknown for even
+Debian, known for how stable and well-tested it is, to occasionally break a
+user's system. Atomically applying updates significantly mitigates the risk of bad updates.</p>
+<h2 id="security">Security</h2>
+<p>There is a relevant <a href="https://www.explainxkcd.com/wiki/index.php/1200:_Authorization">XKCD</a> that people raise when talking about secure operating systems. While there is some truth to this, it ignores that a very real vector for stealing
+your authentication or banking credentials is malware infecting your computer.</p>
+<p>Immutable Linux distributions provide enhanced security by preventing unauthorised modifications to the system files, making them more resistant to malware and other attacks.</p>
+<h1 id="how">How</h1>
+<h2 id="installing-the-operating-system">Installing the operating system</h2>
+<p>First, head over to <a href="https://universal-blue.org/">Universal Blue</a> and select a
+distribution and version that is compatible with your particular hardware.</p>
+<p>Note that while AMD is the most well-supported, I had no issues running
+Bluefin-dx on my laptop with an Intel graphics chip.</p>
+<h2 id="installing-packages">Installing packages</h2>
+<p>The package managers that come with the operating system focus on containerised
+applications; for example FlatPaks, Homebrew, and AppImages.</p>
+<p>For CLI packages, it is recommended to use Homebrew. Originally built for macOS,
+Homebrew is now cross-platform, and is an excellent way to manage CLI packages on
+Linux. It installs its packages in user-space and does not require <code>sudo</code>.</p>
+<p>Flatpak applications run in sandboxed environments, providing an additional layer of security and isolation from the host system. Flatpak permission can be managed with FlatSeal, a GUI application that allows
+you to fine-tune its permissions in the host operating system.</p>
+<p>Not all things work well in a container though. For example, 1Password's Flatpak
+is excellent, except that its containerised nature means that it cannot run the
+SSH daemon. For me, the SSH daemon is an important part of my workflow. If you rely on it, you will need to use <code>rpm-ostree</code> to install it.
+<code>rpm-ostree</code> layers additional commands on top of the operating system. In
+general, you should use it as little as possible, opting for containerised
+packages where possible, because it is one additional change that the base OS
+(Fedora) needs to track and apply on every update. Too many of these can cause
+system instability, but a few are fine.</p>
+<h2 id="developing-software">Developing software</h2>
+<p>There are two really good ways to develop on an Atomic distro.</p>
+<p>VSCode and Docker come pre-installed with Bluefin-dx. The real question is how
+you want your code dependencies installed.</p>
+<p>For most people, creating a Debian-based Distrobox and installing the packages
+in there with <code>apt-get</code> is the most straightforward option. Distrobox is great.
+You can set it up so that whenever you open a terminal, you're running it
+through Debian. The dotfiles and configuration are shared with the host, so it's
+seamless. The only difference is that the packages you install using apt-get are
+safely sandboxed in a way that they wouldn't be if you were on a Debian-based host.</p>
+<p>That being said, I personally prefer to use devcontainers for development. Devcontainers provide a consistent, reproducible development environment across different machines, making it easier to collaborate and onboard new team members
+Essentially, I create a development container for each project that I work on. These are often based on Debian, and have Homebrew, NeoVim, and
+language-specific tools installed automatically.</p>
+<p>Devpod is a CLI and GUI tool to manage development containers. You can create a
+devcontainer json file in your project, and pass in a URL to your own dotfiles,
+then SSH into the dev container.</p>
+<p><a href="https://lukm.dev/devops/devcontainers/">I have an article on my Devpod/devcontainer setup here</a>.</p>
+<h2 id="making-your-own-ublue-image">Making your own ublue image</h2>
+<p>Atomic desktops are mostly just a Containerfile (open-source version of
+Dockerfile). Creating your own ublue image allows you to bake in specific tools and configurations, ensuring a consistent base system across all your device</p>
+<p>Doing this has several advantages, namely that you can really customise your
+operating system with the packages that you need.</p>
+<h2 id="tips">Tips</h2>
+<ul>
+<li>Bazzite is great for gaming and Bluefin-dx is great for container-based
+development. If you want to do both, know that it's easier to make Bluefin-dx like Bazzite than the inverse.</li>
+</ul>
+<h2 id="helpful-links">Helpful links</h2>
+<ul>
+<li><a href="https://universal-blue.org/">Universal Blue</a>: Read more and download a
+Universal Blue image (ignore the lingo about cloud-native).</li>
+<li><a href="https://universal-blue.discourse.group/">Universal Blue Discourse Forum</a>: Very friendly and helpful community that can offer answers to question or support.</li>
+</ul>
+<h1 id="future">Future</h1>
+<p>I think the future of general-purpose computing is moving towards a more
+sand-boxed approach. There is no good reason that the majority of user-space
+applications should have access to mutate the host operating system.</p>
+<p>Universal Blue in particular marks a huge step forward in usability of Linux in
+general for the average user. I finally feel that it's a good alternative to
+macOS or Windows.</p>
+<p>In fact, the majority of Windows and macOS users I've spoken to recently have been
+commenting on the general decline in the UI and features of the operating
+systems in general. Many people are expressing a desire to try Linux, but are
+daunted by the difficulty of having to configure the operating system for their
+hardware.</p>
+<p>I think it's finally time- I'm recommending Universal Blue, specifically Bazzite for most general-purpose
+users, and Bluefin-dx for developers. If you give it a try, please let me know
+what you think by commenting below.</p>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="dark-blue" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>
