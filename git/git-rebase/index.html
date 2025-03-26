@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Help, my company uses git rebase - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Help, my company uses git rebase</h1>
+<p class="subtitle"><strong>2025-02-27</strong></p>
+<p>Once, perhaps in a demonstration of my folly, I accepted a role at an
+organisation that primarily uses <code>git rebase</code> instead of <code>git merge</code> and pull
+requests. If your <del>cult</del>company has decided to use rebase, they will value a
+clean commit history over your time and hair folicles.</p>
+<p>Git rebase is hard, mostly because it introduces a lot of edge cases and
+gotchas. It is very easy to overwrite hours or days worth of work, or find your
+<code>HEAD</code> adrift in the void, with no path out.</p>
+<p>But <code>git rebase</code> is great. It can, with <em>some</em> discipline and
+knowledge, lead to a clean, well-documented git history. Also using <code>git rebase</code>
+will make you a git wizard.</p>
+<p>This is a guide I have written to help developers, such as myself, who find
+themself in a company who practices such <del>insanity</del>discipline.</p>
+<hr />
+<p>While I use a mixture of Git cli commands and <code>lazygit</code>, this article will try and
+assume as little as possible about your setup. For this reason, I'm going to
+offer general steps.</p>
+<hr />
+<h1 id="survival-guide">Survival guide</h1>
+<h2 id="split-commits">Split commits</h2>
+<p>Upon preparing your branch for rebasing onto <code>main</code>, you may realise or be told
+that you have bundled too many changes in one commit. You want to avoid being in
+this situation as much as possible, because splitting commits is very difficult.
+That said, here are the steps you take if you find yourself in this unfortunate
+circumstance.</p>
+<p>The best way to split commits is to undo your git history and move all the
+changes back into your working tree, so you can try again- this time being more
+organised.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#65737e;"># uncommit + unstage + delete changes
+</span><span style="color:#bf616a;">git</span><span> reset</span><span style="color:#bf616a;"> --hard</span><span> RECENT_COMMIT
+</span><span style="color:#65737e;"># uncommit + unstage changes -&gt; move changes to working tree
+</span><span style="color:#bf616a;">git</span><span> reset</span><span style="color:#bf616a;"> --mixed</span><span> ORIGIN_COMMIT
+</span></code></pre>
+<p>Now the working tree should be full of all the changes between <code>ORIGIN_COMMIT</code>
+and <code>RECENT_COMMIT</code>.</p>
+<p>Then you just stage chunks of files that are related, and commit them, piece, by
+piece.</p>
+<p>I personally use <code>lazygit</code>, but most IDEs come with something that allows you to stage
+chunks of a file.</p>
+<p>In LazyGit, it's as easy as:</p>
+<ol>
+<li>In the files pane, press <code>space</code> to stage a file, or <code>return</code> to go through its
+code.</li>
+<li>Highlight sections of code using <code>v</code>, and stage them using <code>space</code>.</li>
+<li>When ready, hit <code>escape</code> and <code>c</code> to commit.</li>
+</ol>
+<p>Personally, I prefer to duck out of lazygit for my commit and use <code>git commit -v</code>, because this brings up my pre-commit message. I keep guidelines on how to write a good commit in this.</p>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="dark-blue" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>

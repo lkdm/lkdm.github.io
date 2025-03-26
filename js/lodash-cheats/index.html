@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Lodash tricks I use - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Lodash tricks I use</h1>
+<p class="subtitle"><strong>2025-02-24</strong></p>
+<h1 id="comparison-to-javascript-es6">Comparison to JavaScript ES6</h1>
+<p>For most of my career, I've stuck with Javascript ES6 Array.prototype patterns
+for manipulating collections. These are for the most part, good enough.</p>
+<p>However, there are some benefits to using Lodash; it performs much better with
+very high amounts of records, and its syntax can be more idiomatic.</p>
+<h2 id="turn-a-record-into-an-array">Turn a record into an array</h2>
+<p>I prefer to use Lodash with the <code>_.chain</code> function so that the syntax is similar
+to JS ES6 collection methods that I'm used to.</p>
+<pre data-lang="ts" style="background-color:#2b303b;color:#c0c5ce;" class="language-ts "><code class="language-ts" data-lang="ts"><span style="color:#65737e;">// ES6
+</span><span style="color:#ebcb8b;">Object</span><span>.</span><span style="color:#96b5b4;">values</span><span>(</span><span style="color:#bf616a;">data</span><span>);
+</span><span>
+</span><span style="color:#65737e;">// Lodash
+</span><span style="color:#bf616a;">_</span><span>.</span><span style="color:#8fa1b3;">chain</span><span>(</span><span style="color:#bf616a;">data</span><span>).</span><span style="color:#96b5b4;">values</span><span>().</span><span style="color:#8fa1b3;">value</span><span>();
+</span></code></pre>
+<h1 id="debugging-lodash">Debugging Lodash</h1>
+<p>The Lodash <code>tap</code> method calls a function on the collection, without affecting
+it. It is extremely useful for debugging, because you can move the
+<code>_.tap(console.log)</code> to any point in your Lodash chain to inspect it.</p>
+<pre data-lang="ts" style="background-color:#2b303b;color:#c0c5ce;" class="language-ts "><code class="language-ts" data-lang="ts"><span style="color:#65737e;">// ES6
+</span><span style="color:#bf616a;">data</span><span>.</span><span style="color:#96b5b4;">forEach</span><span>((</span><span style="color:#bf616a;">x</span><span>) </span><span style="color:#b48ead;">=&gt; </span><span>{
+</span><span>  </span><span style="color:#ebcb8b;">console</span><span>.</span><span style="color:#96b5b4;">log</span><span>(</span><span style="color:#bf616a;">x</span><span>);
+</span><span>  </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">x</span><span>;
+</span><span>});
+</span><span>
+</span><span style="color:#65737e;">// Lodash
+</span><span style="color:#bf616a;">_</span><span>.</span><span style="color:#8fa1b3;">chain</span><span>(</span><span style="color:#bf616a;">data</span><span>).</span><span style="color:#8fa1b3;">tap</span><span>(</span><span style="color:#ebcb8b;">console</span><span>.</span><span style="color:#96b5b4;">log</span><span>).</span><span style="color:#8fa1b3;">value</span><span>();
+</span></code></pre>
+<h1 id="sorting">Sorting</h1>
+<p>One reason to use Lodash is that ES6's <code>sort()</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#return_value">mutates the original array</a>, while Lodash's <code>sortBy</code> and <code>orderBy</code> return a new sorted array.</p>
+<h2 id="sorting-by-date">Sorting by date</h2>
+<blockquote>
+<p>The use of JavaScript's <code>Date</code> object is the fastest way to blood on the floor.</p>
+</blockquote>
+<p>There are several problems with it; such as performance when working with large
+datasets, no timezone, and the fact that Dates are mutable (so any arithmetic
+performed on them permanently changes them).</p>
+<p>For this reason, when sorting dates, I'm always sorting a string. Because sort works on alphanumeric values, sorting by date is usually as easy as sorting the strings.</p>
+<h3 id="sort-by-date">Sort by date</h3>
+<pre data-lang="ts" style="background-color:#2b303b;color:#c0c5ce;" class="language-ts "><code class="language-ts" data-lang="ts"><span style="color:#65737e;">// ES6
+</span><span style="color:#bf616a;">date</span><span>.</span><span style="color:#96b5b4;">sort</span><span>((</span><span style="color:#bf616a;">a</span><span>, </span><span style="color:#bf616a;">b</span><span>) </span><span style="color:#b48ead;">=&gt; </span><span style="color:#bf616a;">b</span><span>.</span><span style="color:#bf616a;">date</span><span>.</span><span style="color:#8fa1b3;">localeCompare</span><span>(</span><span style="color:#bf616a;">a</span><span>.</span><span style="color:#bf616a;">date</span><span>));
+</span><span style="color:#65737e;">// Lodash
+</span><span style="color:#bf616a;">_</span><span>.</span><span style="color:#8fa1b3;">chain</span><span>(</span><span style="color:#bf616a;">data</span><span>).</span><span style="color:#8fa1b3;">orderBy</span><span>(&quot;</span><span style="color:#a3be8c;">date</span><span>&quot;).</span><span style="color:#8fa1b3;">value</span><span>();
+</span></code></pre>
+<h3 id="sort-by-optional-date">Sort by optional date</h3>
+<pre data-lang="ts" style="background-color:#2b303b;color:#c0c5ce;" class="language-ts "><code class="language-ts" data-lang="ts"><span style="color:#65737e;">// ES6
+</span><span style="color:#bf616a;">data</span><span>.</span><span style="color:#96b5b4;">sort</span><span>((</span><span style="color:#bf616a;">a</span><span>, </span><span style="color:#bf616a;">b</span><span>) </span><span style="color:#b48ead;">=&gt; </span><span>{
+</span><span>  </span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">dateA </span><span>= </span><span style="color:#bf616a;">a</span><span>.</span><span style="color:#bf616a;">date </span><span>|| &quot;&quot;;
+</span><span>  </span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">dateB </span><span>= </span><span style="color:#bf616a;">b</span><span>.</span><span style="color:#bf616a;">date </span><span>|| &quot;&quot;;
+</span><span>  </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">dateB</span><span>.</span><span style="color:#8fa1b3;">localeCompare</span><span>(</span><span style="color:#bf616a;">dateA</span><span>);
+</span><span>});
+</span><span style="color:#65737e;">// Lodash
+</span><span style="color:#bf616a;">_</span><span>.</span><span style="color:#8fa1b3;">chain</span><span>(</span><span style="color:#bf616a;">data</span><span>)
+</span><span>  .</span><span style="color:#8fa1b3;">sortBy</span><span>((</span><span style="color:#bf616a;">x</span><span>) </span><span style="color:#b48ead;">=&gt; </span><span style="color:#bf616a;">x</span><span>.</span><span style="color:#bf616a;">date </span><span>|| &quot;&quot;)
+</span><span>  .</span><span style="color:#96b5b4;">reverse</span><span>()
+</span><span>  .</span><span style="color:#8fa1b3;">value</span><span>();
+</span></code></pre>
+<h2 id="filter-out-expired-dates">Filter out expired dates</h2>
+<pre data-lang="ts" style="background-color:#2b303b;color:#c0c5ce;" class="language-ts "><code class="language-ts" data-lang="ts"><span style="color:#65737e;">// Lodash
+</span><span style="color:#bf616a;">_</span><span>.</span><span style="color:#8fa1b3;">chain</span><span>(</span><span style="color:#bf616a;">data</span><span>).</span><span style="color:#8fa1b3;">filter</span><span>((</span><span style="color:#bf616a;">x</span><span>) </span><span style="color:#b48ead;">=&gt; </span><span>!</span><span style="color:#bf616a;">x</span><span>.</span><span style="color:#bf616a;">date </span><span>|| </span><span style="color:#bf616a;">x</span><span>.</span><span style="color:#bf616a;">date </span><span>&gt; new Date().</span><span style="color:#8fa1b3;">toISOString</span><span>());
+</span></code></pre>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="dark-blue" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>
