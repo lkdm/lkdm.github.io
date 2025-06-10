@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Proseforge markdown editor - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Proseforge markdown editor</h1>
+<p class="subtitle"><strong>2024-08-22</strong></p>
+<p><img src="https://lukm.dev/projects/proseforge/example.png" alt="Screenshot of Proseforge markdown editor running on Mac OS with some example markdown being rendered" /></p>
+<p>A side hobby of mine is fiction writing, which as a practice greatly benefits
+from defining a structure before getting to the writing part. I've been using
+Scrivener as a tool to do this.</p>
+<p>However, I wanted to create something similar on my own, or at least get started
+with it. After some research, I decided to create an app with Tauri.</p>
+<h2 id="technologies">Technologies</h2>
+<ul>
+<li>Rust</li>
+<li>Tauri</li>
+<li>Vite</li>
+<li>Pnpm</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p>I wasn't planning on stopping where I did. I set the project up so
+that the Tauri implementation was a thin layer that called a headless React
+library.</p>
+<p>The entire project was designed to be platform independent from the ground up. I
+learned a lot about structuring projects alone the way.</p>
+<h2 id="it-features">It features</h2>
+<ul>
+<li>Edit markdown and render its preview inline</li>
+<li>Use the file system dialogue to create or open markdown files</li>
+</ul>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://github.com/lkdm/proseforge">Git repo</a></li>
+</ul>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="dark-blue" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Use clap to configure your application with defaults, cli args, and env vars - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke Martin, a software developer."
+    />
+    <meta name="author" content="Luke Martin" />
+
+    <style type="text/css">
+      /*
+            👋 This is my personal website, created with semantic HTML and minimal CSS for
+            fast loading and easy maintenance. Feel free to share any feedback you have!
+            */
+      body {
+        margin: auto;
+        padding: 1rem;
+        max-width: 36rem;
+        line-height: 1.5;
+        background: #1f2631;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #6584ff;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1rem;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <h1><a href="/">Luke M</a></h1>
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      </header>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Use clap to configure your application with defaults, cli args, and env vars</h1>
+<p class="subtitle"><strong>2025-06-10</strong></p>
+<p>Clap is a command-line argument parser for Rust that can be used to define arguments for a CLI application. I discovered that it can also read values from the environment variables if no arguments are passed in.</p>
+<p>This is so useful, because for local development, I can supply values directly via command-line arguments, while falling back on sensible development defaults. In deployment scenarios, the application can pull from environment variables, set in the container.</p>
+<p>Here’s an example <code>Config</code> struct for an HTTP server, showing how Clap supports development defaults, optional CLI overrides, and environment variable integration:</p>
+<pre data-lang="rs" style="background-color:#2b303b;color:#c0c5ce;" class="language-rs "><code class="language-rs" data-lang="rs"><span style="color:#b48ead;">use </span><span>clap::Parser;
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">derive</span><span>(Parser)]
+</span><span>#[</span><span style="color:#bf616a;">command</span><span>(name = &amp;&quot;</span><span style="color:#a3be8c;">My HTTP Server</span><span>&quot;)]
+</span><span>#[</span><span style="color:#bf616a;">command</span><span>(version, about, long_about = None)]
+</span><span style="color:#b48ead;">struct </span><span>Config {
+</span><span>
+</span><span>	</span><span style="color:#65737e;">/// Designates HOST IP address for the API
+</span><span>	#[</span><span style="color:#bf616a;">arg</span><span>(long, env, default_value = &amp;&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span>&quot;)]
+</span><span>	</span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">api_ip</span><span>: std::net::IpAddr,
+</span><span>
+</span><span>	</span><span style="color:#65737e;">/// Designates HOST port for the API.
+</span><span>	#[</span><span style="color:#bf616a;">arg</span><span>(long, env, default_value_t = 58868, value_parser = clap::value_parser!(u16).</span><span style="color:#bf616a;">range</span><span>(1..))]
+</span><span>	</span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">api_port</span><span>: </span><span style="color:#b48ead;">u16</span><span>,
+</span><span>
+</span><span>
+</span><span>	</span><span style="color:#65737e;">/// List whitelisted IP addresses
+</span><span>	</span><span style="color:#65737e;">///
+</span><span>	</span><span style="color:#65737e;">/// Some API endpoints require elevated privileges, and should only come from certain IP
+</span><span>	</span><span style="color:#65737e;">/// addresses. The format should be a comma-separated string of valid IP addresses, for example;
+</span><span>	</span><span style="color:#65737e;">/// 127.0.0.1,0.0.0.0
+</span><span>	#[</span><span style="color:#bf616a;">arg</span><span>(long, env, num_args = 0.., value_delimiter = &#39;,&#39;, default_value = &amp;&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span>&quot;)]
+</span><span>	</span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">api_ip_whitelist</span><span>: Vec&lt;std::net::IpAddr&gt;,
+</span><span>}
+</span></code></pre>
+<p>You can then call <code>parse</code> on the struct.</p>
+<pre data-lang="rs" style="background-color:#2b303b;color:#c0c5ce;" class="language-rs "><code class="language-rs" data-lang="rs"><span style="color:#b48ead;">let</span><span> config = Config::parse();
+</span></code></pre>
+<p>This is a very ergonomic way of configuring an application, and one of the examples of why I love working with Rust whenever I have the chance.</p>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="dark-blue" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>
