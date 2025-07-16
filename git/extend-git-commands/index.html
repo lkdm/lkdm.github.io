@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	You can add your own git commands - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke, a software developer."
+    />
+    <meta name="author" content="Luke" />
+
+    <style type="text/css">
+      /*
+        👋 This is my personal website, created with semantic HTML and minimal CSS for
+        fast loading and easy maintenance. Feel free to share any feedback you have!
+      */
+      body {
+        margin: auto;
+        max-width: 48rem;
+        line-height: 1.5rem;
+        padding: 1rem;
+        background: #000;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #999;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1.8em;
+        line-height: 2.8rem;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      li {
+        margin-bottom: 0.25rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1.2rem;
+      }
+      .container {
+        font-size: 1rem;
+      }
+      .container pre {
+        border: 1px #666 solid;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    header a {
+      text-decoration: none;
+      font-family: monospace;
+    }
+    .header-hero {
+      font-family: monospace;
+      font-size: 0.5rem;
+      line-height: 0.55rem;
+      overflow: hidden; 
+      padding: 0;
+      margin: 3rem 0 2rem 0;
+    }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+
+<a href="/" title="lukm.dev">
+<pre class="header-hero">
+ ██▓     █    ██  ██ ▄█▀ ███▄ ▄███▓     ▓█████▄ ▓█████ ██▒   █▓
+▓██▒     ██  ▓██▒ ██▄█▒ ▓██▒▀█▀ ██▒     ▒██▀ ██▌▓█   ▀▓██░   █▒
+▒██░    ▓██  ▒██░▓███▄░ ▓██    ▓██░     ░██   █▌▒███   ▓██  █▒░
+▒██░    ▓▓█  ░██░▓██ █▄ ▒██    ▒██      ░▓█▄   ▌▒▓█  ▄  ▒██ █░░
+░██████▒▒▒█████▓ ▒██▒ █▄▒██▒   ░██▒ ██▓ ░▒████▓ ░▒████▒  ▒▀█░  
+░ ▒░▓  ░░▒▓▒ ▒ ▒ ▒ ▒▒ ▓▒░ ▒░   ░  ░ ▒▓▒  ▒▒▓  ▒ ░░ ▒░ ░  ░ ▐░  
+░ ░ ▒  ░░░▒░ ░ ░ ░ ░▒ ▒░░  ░      ░ ░▒   ░ ▒  ▒  ░ ░  ░  ░ ░░  
+  ░ ░    ░░░ ░ ░ ░ ░░ ░ ░      ░    ░    ░ ░  ░    ░       ░░  
+    ░  ░   ░     ░  ░          ░     ░     ░       ░  ░     ░  
+                                     ░   ░                 ░   
+</pre></a>
+</header>
+        <!-- <h1><a href="/">Luke M</a></h1> -->
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      <section class="section">
+        <div class="container">
+<h1 class="title">You can add your own git commands</h1>
+<p class="subtitle"><strong>2025-06-15</strong></p>
+<p>Here's something really cool. You can add your own commands to git by simply prepending a script with <code>git-</code> and adding it to your <code>$PATH</code>.</p>
+<p>For example, create a script called <code>git-root</code> which outputs the root directory of a git worktree:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="font-style:italic;color:#575757;">#!/usr/bin/env bash
+</span><span style="color:#cacaca;">git rev-parse --show-toplevel
+</span></code></pre>
+<p>Having saved it, added it to a directory in our path, and marked it as executable, we will be able to execute it just like any other git command:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">git root
+</span></code></pre>
+<p>And that should execute the script, showing the output.</p>
+<p>Please share any handy scripts you've added as git commands in the comments!</p>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="github-dark" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>
