@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	Crustacean Station - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke, a software developer."
+    />
+    <meta name="author" content="Luke" />
+
+    <style type="text/css">
+      /*
+        👋 This is my personal website, created with semantic HTML and minimal CSS for
+        fast loading and easy maintenance. Feel free to share any feedback you have!
+      */
+      body {
+        margin: auto;
+        max-width: 48rem;
+        line-height: 1.5rem;
+        padding: 1rem;
+        background: #000;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #999;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1.8em;
+        line-height: 2.8rem;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      li {
+        margin-bottom: 0.25rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1.2rem;
+      }
+      .container {
+        font-size: 1rem;
+      }
+      .container pre {
+        border: 1px #666 solid;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    header a {
+      text-decoration: none;
+      font-family: monospace;
+    }
+    .header-hero {
+      font-family: monospace;
+      font-size: 0.5rem;
+      line-height: 0.55rem;
+      overflow: hidden; 
+      padding: 0;
+      margin: 3rem 0 2rem 0;
+    }
+    .entry {
+      text-decoration: none;
+    }
+    .entry sup {
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+    }
+    .yellow {
+      color: yellow;
+    }
+    .red {
+      color: red;
+    }
+    .green {
+      color: lime;
+    }
+    .blue {
+      color: blue;
+    }
+    .tag {
+      color: #888
+    }
+    a:hover {
+      text-decoration: underline !important
+    }
+    #header-hero-a {
+        text-decoration: none !important
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+
+<a id="header-hero-a" href="/" title="lukm.dev">
+<pre class="header-hero">
+ ██▓     █    ██  ██ ▄█▀ ███▄ ▄███▓     ▓█████▄ ▓█████ ██▒   █▓
+▓██▒     ██  ▓██▒ ██▄█▒ ▓██▒▀█▀ ██▒     ▒██▀ ██▌▓█   ▀▓██░   █▒
+▒██░    ▓██  ▒██░▓███▄░ ▓██    ▓██░     ░██   █▌▒███   ▓██  █▒░
+▒██░    ▓▓█  ░██░▓██ █▄ ▒██    ▒██      ░▓█▄   ▌▒▓█  ▄  ▒██ █░░
+░██████▒▒▒█████▓ ▒██▒ █▄▒██▒   ░██▒ ██▓ ░▒████▓ ░▒████▒  ▒▀█░  
+░ ▒░▓  ░░▒▓▒ ▒ ▒ ▒ ▒▒ ▓▒░ ▒░   ░  ░ ▒▓▒  ▒▒▓  ▒ ░░ ▒░ ░  ░ ▐░  
+░ ░ ▒  ░░░▒░ ░ ░ ░ ░▒ ▒░░  ░      ░ ░▒   ░ ▒  ▒  ░ ░  ░  ░ ░░  
+  ░ ░    ░░░ ░ ░ ░ ░░ ░ ░      ░    ░    ░ ░  ░    ░       ░░  
+    ░  ░   ░     ░  ░          ░     ░     ░       ░  ░     ░  
+                                     ░   ░                 ░   
+</pre></a>
+</header>
+        <!-- <h1><a href="/">Luke M</a></h1> -->
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      <section class="section">
+        <div class="container">
+<h1 class="title">Crustacean Station</h1>
+<p class="subtitle"><strong>2025-11-01</strong></p>
+
+
+
+<p>Crustacean Station is a small collection of developer tools built to explore
+<strong>Leptos</strong>, a reactive Rust framework targeting WASM. I wanted a weekend-sized
+project that let me try out Leptos in a practical way; and along the journey I
+even contributed a documentation fix to the project.</p>
+<p>Technologies:</p>
+<ul>
+<li>Leptos</li>
+<li>Tailwind CSS</li>
+</ul>
+<p>It features:</p>
+<ul>
+<li><strong>Dark/light mode switch</strong>: Uses Tailwind’s color variables and
+<code>localStorage</code> to persist the user’s preference.</li>
+<li><strong>JSON formatter</strong>: Formats and validates a JSON blob using <code>serde</code>.</li>
+<li><strong>UUID generator</strong>: Generates <code>n</code> UUID v4 values, with an option to control
+casing.</li>
+<li><strong>Copy-to-clipboard component</strong>: A reusable button for copying outputs.</li>
+</ul>
+<p>What I learned:</p>
+<ul>
+<li>Leptos is delightful. It feels familiar to React (which I use often) but brings
+some Rust-specific advantages.</li>
+<li>Pulling in <code>serde</code> and <code>uuid</code> significantly increased the WASM bundle size.
+<ul>
+<li>I tried bundle splitting, but GitHub Pages didn’t play well with the setup.</li>
+<li>In the future, I’d likely roll my own lightweight implementations instead of
+relying on larger crates for a small tool.</li>
+</ul>
+</li>
+<li>SPA routing on GitHub Pages requires a <code>404.html</code> redirecting to <code>index.html</code>.
+After discovering this, I contributed a
+<a href="https://github.com/leptos-rs/book/pull/245">pull request</a> to improve the
+official Leptos documentation.</li>
+</ul>
+<p>Links:</p>
+<a class="entry" href="https://github.com/lkdm/Crustacean-Station" title="See the GitHub repository for Crustacean-Station." target="github">The code is available on GitHub <sup class="yellow">gh</sup></a>
+<ul>
+<li><a href="https://lukm.dev/Crustacean-Station/">Demo</a></li>
+</ul>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="github-dark" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>

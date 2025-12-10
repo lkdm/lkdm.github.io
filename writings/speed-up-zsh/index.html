@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>
+  	
+    	I cut Zsh load time from 400ms to 30ms - lukm.dev
+  	
+	</title>
+    <meta
+      name="description"
+      content="The personal website for Luke, a software developer."
+    />
+    <meta name="author" content="Luke" />
+
+    <style type="text/css">
+      /*
+        👋 This is my personal website, created with semantic HTML and minimal CSS for
+        fast loading and easy maintenance. Feel free to share any feedback you have!
+      */
+      body {
+        margin: auto;
+        max-width: 48rem;
+        line-height: 1.5rem;
+        padding: 1rem;
+        background: #000;
+        color: #d3d3d3;
+        font-family: "Georgia", serif;
+      }
+      a {
+        color: #999;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1.8em;
+        line-height: 2.8rem;
+      }
+      h1 a,
+      h2 a {
+        text-decoration: none;
+        color: #d3d3d3;
+      }
+      header h1 {
+      	  text-align: center;
+      	  margin-bottom: 4rem;
+      }
+      nav a {
+        color: #d3d3d3;
+      }
+      footer {
+        margin-top: 3em;
+      }
+      #posts {
+      	  font-family: sans-serif;
+      }
+      #posts ul {
+        padding: 0;
+      }
+      #posts li {
+        list-style-type: none;
+        margin-bottom: 0.5rem;
+      }
+      #posts a {
+      	  text-decoration: none;
+      }
+      #posts li time {
+        font-family: monospace, monospace;
+        color: #ccc;
+        padding-right: 1em;
+        font-size: 0.8rem;
+      }
+      li {
+        margin-bottom: 0.25rem;
+      }
+      pre {
+      	  overflow: auto;
+      	  padding: 1.2rem;
+      }
+      .container {
+        font-size: 1rem;
+      }
+      .container pre {
+        border: 1px #666 solid;
+      }
+	  .container img {
+  		max-width: 100%;
+  		height: auto;
+	  }
+    header a {
+      text-decoration: none;
+      font-family: monospace;
+    }
+    .header-hero {
+      font-family: monospace;
+      font-size: 0.5rem;
+      line-height: 0.55rem;
+      overflow: hidden; 
+      padding: 0;
+      margin: 3rem 0 2rem 0;
+    }
+    .entry {
+      text-decoration: none;
+    }
+    .entry sup {
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+    }
+    .yellow {
+      color: yellow;
+    }
+    .red {
+      color: red;
+    }
+    .green {
+      color: lime;
+    }
+    .blue {
+      color: blue;
+    }
+    .tag {
+      color: #888
+    }
+    a:hover {
+      text-decoration: underline !important
+    }
+    #header-hero-a {
+        text-decoration: none !important
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <header>
+
+<a id="header-hero-a" href="/" title="lukm.dev">
+<pre class="header-hero">
+ ██▓     █    ██  ██ ▄█▀ ███▄ ▄███▓     ▓█████▄ ▓█████ ██▒   █▓
+▓██▒     ██  ▓██▒ ██▄█▒ ▓██▒▀█▀ ██▒     ▒██▀ ██▌▓█   ▀▓██░   █▒
+▒██░    ▓██  ▒██░▓███▄░ ▓██    ▓██░     ░██   █▌▒███   ▓██  █▒░
+▒██░    ▓▓█  ░██░▓██ █▄ ▒██    ▒██      ░▓█▄   ▌▒▓█  ▄  ▒██ █░░
+░██████▒▒▒█████▓ ▒██▒ █▄▒██▒   ░██▒ ██▓ ░▒████▓ ░▒████▒  ▒▀█░  
+░ ▒░▓  ░░▒▓▒ ▒ ▒ ▒ ▒▒ ▓▒░ ▒░   ░  ░ ▒▓▒  ▒▒▓  ▒ ░░ ▒░ ░  ░ ▐░  
+░ ░ ▒  ░░░▒░ ░ ░ ░ ░▒ ▒░░  ░      ░ ░▒   ░ ▒  ▒  ░ ░  ░  ░ ░░  
+  ░ ░    ░░░ ░ ░ ░ ░░ ░ ░      ░    ░    ░ ░  ░    ░       ░░  
+    ░  ░   ░     ░  ░          ░     ░     ░       ░  ░     ░  
+                                     ░   ░                 ░   
+</pre></a>
+</header>
+        <!-- <h1><a href="/">Luke M</a></h1> -->
+        <nav>
+          <a href="https://github.com/lkdm">GitHub</a>
+        </nav>
+      <section class="section">
+        <div class="container">
+<h1 class="title">I cut Zsh load time from 400ms to 30ms</h1>
+<p class="subtitle"><strong>2025-06-23</strong></p>
+
+
+    
+    Tags:
+    
+        <a href="/tags#shell">shell</a>, 
+        <a href="/tags#zsh">zsh</a>
+
+<p>More accurately, I reduced my ZSH startup time from <strong>~412ms</strong> to <strong>~28ms</strong>.</p>
+<p>I had noticed that it was unbearably slow, both in rendering the prompt and
+starting new shells.</p>
+<p>I also have never used Oh-My-ZSH, because I never felt the need for it, and it has a
+reputation for having abysmal performance. So by all accounts, it should have
+been much faster than this.</p>
+<h2 id="profiling">Profiling</h2>
+<p>Whenever you're measuring anything, it's important not to eyeball it. In this
+case, we can profile ZSH using a simple one-liner.</p>
+<p>Startup felt slow and tedious. But we need to make sure we properly
+measure. I reverted my performance commits and found that ZSH takes <strong><del>412ms</del></strong> to start using:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">time zsh -i -c exit
+</span></code></pre>
+<p>I then used the following to profile which exact parts of my ZSH were taking
+the most time:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">zmodload zsh/zprof
+</span><span style="font-style:italic;color:#575757;"># ...
+</span><span style="color:#cacaca;">zprof
+</span></code></pre>
+<p>I'll spare the details for brevity; but here's what made the biggest
+difference...</p>
+<h2 id="replace-nvm-with-fnm">Replace <code>nvm</code> with <code>fnm</code></h2>
+<p>Replacing <code>nvm</code> with <a class="entry" href="https://github.com/schniz/fnm" title="See the GitHub repository for fnm." target="github">`fnm` <sup class="yellow">gh</sup></a>
+ was the single biggest improvement, because the
+majority of the startup time was taken by evaluating <code>nvm</code>.</p>
+<h2 id="changed-from-a-custom-prompt-to-starship">Changed from a custom prompt to Starship</h2>
+<p>I had created a complex ZSH PS1 prompt that got the working directory, and
+called <code>git</code> a bunch of times. This was extremely slow.</p>
+<p><a href="https://lukm.dev/writings/speed-up-zsh/starship.rs">Starship</a> renders almost instantly. Its hooks into git use the
+gitoxide crate, which is much faster than calling the <code>git</code> command and
+parsing its output.</p>
+<h2 id="pre-cached-evaluated-scripts">Pre-cached evaluated scripts</h2>
+<p>I use <a href="https://lukm.dev/writings/speed-up-zsh/chezmoi.io">Chezmoi</a> to patch my dotfiles from my Git repository using
+a command. Its powerful templating and scripting features make it
+incredible for declaratively provisioning packages and configuration across
+multiple machines and operating systems.</p>
+<p>Using Chezmoi allows us to pre-compute the output of a lot of things we'd
+otherwise <em>eval</em> in our <code>.zshrc</code> or <code>.zprofile</code>.</p>
+<p>For example, Homebrew requires evaluation to set a bunch of environment
+variables. Here is a cross-platform (Mac OS and Linux) snippet that can
+pre-compute it:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">{{- if lookPath </span><span style="color:#d7d7d7;">&quot;/opt/homebrew/bin/brew&quot; </span><span style="color:#cacaca;">}}
+</span><span style="color:#cacaca;">{{ output </span><span style="color:#d7d7d7;">&quot;/opt/homebrew/bin/brew&quot; &quot;shellenv&quot; </span><span style="color:#608c6d;">| </span><span style="color:#cacaca;">trim }}
+</span><span style="color:#cacaca;">{{- end }}
+</span><span style="color:#cacaca;">{{- if lookPath </span><span style="color:#d7d7d7;">&quot;/home/linuxbrew/.linuxbrew/bin/brew&quot; </span><span style="color:#cacaca;">}}
+</span><span style="color:#cacaca;">{{ output </span><span style="color:#d7d7d7;">&quot;/home/linuxbrew/.linuxbrew/bin/brew&quot; &quot;shellenv&quot; </span><span style="color:#608c6d;">| </span><span style="color:#cacaca;">trim }}
+</span><span style="color:#cacaca;">{{- end }}
+</span></code></pre>
+<p>I love using Atuin to sync shell history, which can also be
+pre-computed:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">{{- if lookPath </span><span style="color:#d7d7d7;">&quot;atuin&quot; </span><span style="color:#cacaca;">}}
+</span><span style="color:#cacaca;">{{ output </span><span style="color:#d7d7d7;">&quot;zsh&quot; &quot;-c&quot; &quot;atuin init zsh&quot; </span><span style="color:#608c6d;">| </span><span style="color:#cacaca;">trim }}
+</span><span style="color:#cacaca;">{{- end }}
+</span></code></pre>
+<p>Finally, even Starship can be pre-computed:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">{{- if lookPath </span><span style="color:#d7d7d7;">&quot;starship&quot;</span><span style="color:#cacaca;"> -}}
+</span><span style="color:#cacaca;">{{ output </span><span style="color:#d7d7d7;">&quot;starship&quot; &quot;init&quot; &quot;zsh&quot; &quot;--print-full-init&quot; </span><span style="color:#608c6d;">| </span><span style="color:#cacaca;">trim }}
+</span><span style="color:#cacaca;">{{- end -}}
+</span></code></pre>
+<p>And we can also pre-compute <code>fnm</code>:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="font-style:italic;color:#575757;"># fnm zsh
+</span><span style="font-style:italic;color:#575757;">#
+</span><span style="font-style:italic;color:#575757;"># Using Chezmoi templating, caches the evaluation of fnm&#39;s init command for performance.
+</span><span style="color:#cacaca;">{{- if lookPath </span><span style="color:#d7d7d7;">&quot;fnm&quot; </span><span style="color:#cacaca;">}}
+</span><span style="color:#cacaca;">{{ output </span><span style="color:#d7d7d7;">&quot;zsh&quot; &quot;-c&quot; &quot;fnm env --use-on-cd --shell zsh --version-file-strategy=recursive&quot; </span><span style="color:#608c6d;">| </span><span style="color:#cacaca;">trim }}
+</span><span style="color:#cacaca;">{{- end }}
+</span><span style="color:#cacaca;">
+</span></code></pre>
+<h2 id="cache-path">Cache <code>$PATH</code></h2>
+<p>I also make heavy use of caching for many of the tools that need to be added
+to the <code>$PATH</code> environment variable. Usually these will give you a command
+to evaluate in your <code>.zshrc</code> or <code>.zprofile</code> which will add them to
+<code>$PATH</code>. But by caching the value, we skip all that:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#82677e;">export </span><span style="color:#cacaca;">GOPATH</span><span style="color:#608c6d;">=</span><span style="color:#d7d7d7;">&quot;${XDG_DATA_HOME</span><span style="color:#608c6d;">:-</span><span style="color:#d7d7d7;">$HOME/.local/share}/go&quot;
+</span><span style="color:#cacaca;">
+</span><span style="font-style:italic;color:#575757;"># path is an array that zsh syncs with the PATH environment variable
+</span><span style="color:#cacaca;">path</span><span style="color:#608c6d;">=</span><span style="color:#cacaca;">(
+</span><span style="color:#cacaca;">	$path
+</span><span style="color:#cacaca;">	~/.local/bin
+</span><span style="color:#cacaca;">	~/bin
+</span><span style="color:#cacaca;">	~/.cargo/bin
+</span><span style="color:#cacaca;">	~/.bun
+</span><span style="color:#cacaca;">	~/.atuin/bin
+</span><span style="color:#cacaca;">	$XDG_CONFIG_HOME/git/bin
+</span><span style="color:#cacaca;">	$XDG_DATA_HOME/uv/tools
+</span><span style="color:#cacaca;">	$GOPATH/bin
+</span><span style="color:#cacaca;">  	$HOMEBREW_PREFIX/opt/rustup/bin
+</span><span style="color:#cacaca;">  	$HOMEBREW_PREFIX/opt/clamav/bin
+</span><span style="color:#cacaca;">	$HOMEBREW_PREFIX/opt/omnisharp/bin
+</span><span style="color:#cacaca;">	$HOMEBREW_PREFIX/opt/postgresql@17/bin
+</span><span style="color:#cacaca;">	$HOMEBREW_PREFIX/bin
+</span><span style="color:#cacaca;">	$HOMEBREW_PREFIX/sbin
+</span><span style="color:#cacaca;">	/usr/local/go/bin
+</span><span style="color:#cacaca;">	/snap/bin
+</span><span style="color:#cacaca;">	/usr/bin
+</span><span style="color:#cacaca;">	/usr/local/bin
+</span><span style="color:#cacaca;">	/bin
+</span><span style="color:#cacaca;">  	/usr/sbin
+</span><span style="color:#cacaca;">  	/sbin
+</span><span style="color:#cacaca;">)
+</span><span style="color:#cacaca;">
+</span><span style="color:#82677e;">export </span><span style="color:#cacaca;">RUSTUP_HOME</span><span style="color:#608c6d;">=</span><span style="color:#d7d7d7;">&quot;$XDG_DATA_HOME/rustup&quot;
+</span><span style="color:#82677e;">export </span><span style="color:#cacaca;">CARGO_HOME</span><span style="color:#608c6d;">=</span><span style="color:#d7d7d7;">&quot;$XDG_DATA_HOME/cargo&quot;
+</span><span style="color:#82677e;">export </span><span style="color:#cacaca;">DOCKER_CONFIG</span><span style="color:#608c6d;">=</span><span style="color:#d7d7d7;">&quot;$XDG_CONFIG_HOME/docker&quot;
+</span><span style="color:#82677e;">export </span><span style="color:#cacaca;">SHELL</span><span style="color:#608c6d;">=</span><span style="color:#d7d7d7;">&quot;$HOMEBREW_PREFIX/bin/zsh&quot;
+</span><span style="color:#cacaca;">
+</span><span style="color:#82677e;">export </span><span style="color:#cacaca;">LANG</span><span style="color:#608c6d;">=</span><span style="color:#d7d7d7;">&quot;en_AU.UTF-8&quot;
+</span><span style="color:#82677e;">export </span><span style="color:#cacaca;">LC_ALL</span><span style="color:#608c6d;">=</span><span style="color:#d7d7d7;">&quot;en_AU.UTF-8&quot;
+</span></code></pre>
+<h2 id="cache-zcompdump-file">Cache .zcompdump file</h2>
+<p>Thanks to <a href="https://gist.github.com/ctechols/ca1035271ad134841284">the author of this awesome gist</a>, I found that I can pre-compute the <em>.zcompdump</em> file daily.</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="font-style:italic;color:#575757;"># On slow systems, checking the cached .zcompdump file to see if it must be
+</span><span style="font-style:italic;color:#575757;"># regenerated adds a noticable delay to zsh startup.  This little hack restricts
+</span><span style="font-style:italic;color:#575757;"># it to once a day.  It should be pasted into your own completion file.
+</span><span style="font-style:italic;color:#575757;">#
+</span><span style="font-style:italic;color:#575757;"># The globbing is a little complicated here:
+</span><span style="font-style:italic;color:#575757;"># - &#39;#q&#39; is an explicit glob qualifier that makes globbing work within zsh&#39;s [[ ]] construct.
+</span><span style="font-style:italic;color:#575757;"># - &#39;N&#39; makes the glob pattern evaluate to nothing when it doesn&#39;t match (rather than throw a globbing error)
+</span><span style="font-style:italic;color:#575757;"># - &#39;.&#39; matches &quot;regular files&quot;
+</span><span style="font-style:italic;color:#575757;"># - &#39;mh+24&#39; matches files (or directories or whatever) that are older than 24 hours.
+</span><span style="font-style:italic;color:#575757;">#
+</span><span style="font-style:italic;color:#575757;"># From: https://gist.github.com/ctechols/ca1035271ad134841284
+</span><span style="color:#cacaca;">autoload -Uz compinit
+</span><span style="color:#92577e;">if </span><span style="color:#7d6068;">[[ </span><span style="color:#cacaca;">-n ${ZDOTDIR}/.zcompdump(#qN.mh+24) </span><span style="color:#7d6068;">]]</span><span style="color:#608c6d;">; </span><span style="color:#92577e;">then
+</span><span style="color:#cacaca;">	compinit</span><span style="color:#608c6d;">;
+</span><span style="color:#92577e;">else
+</span><span style="color:#cacaca;">	compinit -C</span><span style="color:#608c6d;">;
+</span><span style="color:#92577e;">fi</span><span style="color:#608c6d;">;
+</span></code></pre>
+<h2 id="final-profile">Final profile</h2>
+<p>With all the above changes combined, we come to a mere <strong>~28ms</strong>. Amazing!</p>
+<p>Before</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">zsh -i -c exit  0.21s user 0.22s system 120% cpu 0.412 total
+</span></code></pre>
+<p>After</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">zsh -i -c exit  0.02s user 0.01s system 101% cpu 0.028 total
+</span></code></pre>
+<p>Anecdotally, it feels <em>snappy</em>; very satisfying for my primordial lizard brain.</p>
+<h2 id="busting-cache">Busting cache</h2>
+<p>Because it's Chezmoi, the cache can be busted by simply running:</p>
+<pre data-lang="sh" style="background-color:#000000fa;color:#c1c1c1;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#cacaca;">chezmoi apply
+</span></code></pre>
+<p>And all values are re-computed.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>What did we learn? First, measure when optimising for a metric. Second, caching at the right time drastically improves
+performance. For me, this is when I provision my dotfiles. If I haven't updated
+anything or made any changes, chances are that nothing needs to be
+re-evalated.</p>
+<p>My dotfiles are available on GitHub<a class="entry" href="https://github.com/lkdm/dotfiles" title="See the GitHub repository for dotfiles." target="github"> <sup class="yellow">gh</sup></a>
+.</p>
+
+
+<script src="https://utteranc.es/client.js" repo="lkdm/lkdm.github.io" issue-term="pathname" label="discussion" theme="github-dark" crossorigin="anonymous" async> </script>
+</div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; Luke M</p>
+    </footer>
+  </body>
+</html>
